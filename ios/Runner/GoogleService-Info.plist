@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>847871911666-s5u03sqe4g375mltfcc0i0o8e8ao9jao.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.847871911666-s5u03sqe4g375mltfcc0i0o8e8ao9jao</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDpuSZPpQIiJenHEFqWIDDfVzqJ_7uol0k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>847871911666</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.blinkit</string>
+	<key>PROJECT_ID</key>
+	<string>blinkitclone-588ad</string>
+	<key>STORAGE_BUCKET</key>
+	<string>blinkitclone-588ad.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:847871911666:ios:e2a99afed2b0d8c452d26b</string>
+</dict>
+</plist>
