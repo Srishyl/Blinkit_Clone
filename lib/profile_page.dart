@@ -30,8 +30,19 @@ class ProfilePage extends StatelessWidget {
                       CircleAvatar(
                         radius: 35,
                         backgroundColor: Colors.grey[200],
-                        backgroundImage: user?.photoURL != null ? NetworkImage(user!.photoURL!) : null,
-                        child: user?.photoURL == null ? const Icon(Icons.person, size: 40, color: Colors.grey) : null,
+                        child: user?.photoURL != null
+                            ? ClipOval(
+                                child: Image.network(
+                                  user!.photoURL!,
+                                  width: 70,
+                                  height: 70,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Icon(Icons.person, size: 40, color: Colors.grey);
+                                  },
+                                ),
+                              )
+                            : const Icon(Icons.person, size: 40, color: Colors.grey),
                       ),
                       const SizedBox(width: 16),
                       Expanded(

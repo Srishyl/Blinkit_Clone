@@ -4,6 +4,7 @@ import 'home_page.dart';
 import 'categories_page.dart';
 import 'cart_page.dart';
 import 'profile_page.dart';
+import 'splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,14 +20,19 @@ class BlinkitApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFFEC5B13);
     return MaterialApp(
-      title: 'Blinkit Clone',
+      title: 'FreshDash',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF7CB46)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: primaryColor,
+          primary: primaryColor,
+        ),
         useMaterial3: true,
+        fontFamily: 'Inter',
       ),
-      home: const MainScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -50,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFFEC5B13);
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
@@ -57,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey[600],
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
@@ -68,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.category_outlined), activeIcon: Icon(Icons.category), label: 'Categories'),
+          BottomNavigationBarItem(icon: Icon(Icons.search_outlined), activeIcon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), activeIcon: Icon(Icons.shopping_cart), label: 'Cart'),
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
         ],
