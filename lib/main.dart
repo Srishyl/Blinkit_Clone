@@ -7,12 +7,22 @@ import 'profile_page.dart';
 import 'splash_screen.dart';
 import 'firebase_options.dart';
 
+import 'package:provider/provider.dart';
+import 'cart_provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const BlinkitApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
+      child: const BlinkitApp(),
+    ),
+  );
 }
 
 class BlinkitApp extends StatelessWidget {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'cart_provider.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -10,28 +12,31 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage> {
   final List<Map<String, String>> _products = [
     {
+      'id': 'milk1',
       'name': 'Amul Gold Milk (Full Cream)',
       'size': '500 ml',
-      'price': '₹33',
+      'price': '33',
       'image': 'https://lh3.googleusercontent.com/aida-public/AB6AXuBkSbw64P8vT7LVo2ZK_Hl8KHhS4qPx2H8G39nWmDPF3rRH2u8_R0XeSD5qXRaJpo1zlVbdtOwVd9P899k6TY_rkjbLfCH5NA3WmFp9R6lhaD02Tyi0a7i0gLHdeI0VTuw1VoRlu3MwgWGl9zvJRQE4rn_28tStxfbhW-Nz22KPtIrrKUv9-HBWid2SSKBbep2waJb9eoy6TnK8pVtpubVibRv1Tgo9vF7SK_6cjyi36fVE4xtkBehf4HQZZR2k0ThAqJOfga1sXCQ'
     },
     {
+      'id': 'milk2',
       'name': 'Mother Dairy Toned Milk',
       'size': '500 ml',
-      'price': '₹27',
+      'price': '27',
       'image': 'https://lh3.googleusercontent.com/aida-public/AB6AXuDteyfHk9UGu2OBFIyLfm8uhhHtfcTx7V21IYFZMMRbPg9xRXzTmX4pVFfdqS43TWr_mvoovZ14lItXRhIqqbHF-NcmPvvv5pJv01jBMiIRdCBF3-wKao2fcZnEuAfwjJWUmcxdC-gFL4mfNfUU8b2GOJ95TILpQ0eifLAzYGcUJO8jKt0P7JNE-1JdGiDx9bPMseFY0pjYYAXrIqkGeUcBQ2fqNF2USplO8XBhIzhnSXrQ3xe3WyTfdjruXfgOhBitKs0GUirUb6M'
     },
     {
+      'id': 'milk3',
       'name': 'Nandini GoodLife Milk',
       'size': '1 L • Tetra Pack',
-      'price': '₹54',
+      'price': '54',
       'image': 'https://lh3.googleusercontent.com/aida-public/AB6AXuB4ozuS452FOnuUGUMOQwvzDKTFu_-xRfb1lqvegUlsni3z-qVr6Lm85F-2TPmYsrn5bAESBjPVgsYcJFkUKwY08ixruqeNYi32K17uPnk-iNodEr9-lPDgvc2UFH2kqAnvttwX0gWGBmv-QybGNEJZCl_mCXiNTpj28-OIpZQQXqMh281tVuHuqF-u2ebdHBy3xNJkI_MGyVrONnsG_0RFpChBxAn3LkYSjB1T2IlKD5M638vtTL2uHGOlKnNtZuciNVAo6gg-Gp0',
-      'inCart': 'true'
     },
     {
+      'id': 'milk4',
       'name': 'Country Delight Buffalo Milk',
       'size': '500 ml',
-      'price': '₹42',
+      'price': '42',
       'image': 'https://lh3.googleusercontent.com/aida-public/AB6AXuDREKMWnvQ2BtgnJ9wCEJqv1BIyd5Pm2coNCA36QOKVxwrvydb-xQMlTkh1E3Jcb2ie_YJrZ31pOAK-ROdrbgrSuT7VAShgLyZYINbyNTwuOQXoieeVsPZAUGwfbomQSJrYC713msgxOf7F2VqPeaSN38j15ImeY_-6DjFGLo0x5xsgnGZ-BTDzTKZ40Ay5AEcrzuBR58Z_Ynq2baVvtqsYQJWqDq4LLEKuOs6bjt1mGCEsT4SKuuzWqMxBKCvLRYNz17aWLj4CqNI'
     },
   ];
@@ -51,7 +56,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () {},
+                    onPressed: () {
+                      // Navigate back or context specific
+                    },
                   ),
                   Expanded(
                     child: Container(
@@ -119,7 +126,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 itemCount: _products.length,
                 itemBuilder: (context, index) {
                   final product = _products[index];
-                  return _buildProductCard(product);
+                  return _buildProductCard(context, product);
                 },
               ),
             ),
@@ -157,8 +164,17 @@ class _CategoriesPageState extends State<CategoriesPage> {
     );
   }
 
-  Widget _buildProductCard(Map<String, String> product) {
-    bool inCart = product['inCart'] == 'true';
+  Widget _buildProductCard(BuildContext context, Map<String, String> productData) {
+    final cart = Provider.of<CartProvider>(context);
+    final id = productData['id']!;
+    final name = productData['name']!;
+    final size = productData['size']!;
+    final price = double.parse(productData['price']!);
+    final image = productData['image']!;
+    
+    final isInCart = cart.items.containsKey(id);
+    final quantity = isInCart ? cart.items[id]!.quantity : 0;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
@@ -175,7 +191,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
             decoration: BoxDecoration(
               color: Colors.grey[100],
               borderRadius: BorderRadius.circular(12),
-              image: DecorationImage(image: NetworkImage(product['image']!), fit: BoxFit.contain),
+              image: DecorationImage(image: NetworkImage(image), fit: BoxFit.contain),
             ),
           ),
           const SizedBox(width: 16),
@@ -184,11 +200,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product['name']!,
+                  name,
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 Text(
-                  product['size']!,
+                  size,
                   style: TextStyle(color: Colors.grey[600], fontSize: 13),
                 ),
                 const SizedBox(height: 8),
@@ -196,29 +212,46 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      product['price']!,
+                      '₹${price.toInt()}',
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                    if (inCart)
+                    if (isInCart)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEC5B13),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.remove, color: Colors.white, size: 16),
-                            SizedBox(width: 8),
-                            Text('1', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                            SizedBox(width: 8),
-                            Icon(Icons.add, color: Colors.white, size: 16),
+                            IconButton(
+                              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(Icons.remove, color: Colors.white, size: 16),
+                              onPressed: () => cart.removeSingleItem(id),
+                            ),
+                            Text('$quantity', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                            IconButton(
+                              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                              padding: EdgeInsets.zero,
+                              icon: const Icon(Icons.add, color: Colors.white, size: 16),
+                              onPressed: () => cart.addItem(id, name, price, image, size),
+                            ),
                           ],
                         ),
                       )
                     else
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          cart.addItem(id, name, price, image, size);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('$name added to cart'),
+                              duration: const Duration(seconds: 1),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: Color(0xFFEC5B13), width: 2),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
