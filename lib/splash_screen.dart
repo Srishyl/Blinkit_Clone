@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEC5B13),
+      backgroundColor: BlinkitApp.primaryColor, // Navy Blue
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -44,15 +44,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.shopping_basket_rounded,
-                size: 80,
-                color: Color(0xFFEC5B13),
+              child: Image.asset(
+                'assets/images/rush_logo.png',
+                width: 120,
               ),
             ),
             const SizedBox(height: 24),
             const Text(
-              'FreshDash',
+              'Rush',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 32,

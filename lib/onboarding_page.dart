@@ -75,10 +75,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       );
                     }
                   },
-                  backgroundColor: const Color(0xFFEC5B13),
+                  backgroundColor: BlinkitApp.primaryColor,
                   child: Icon(
                     _currentPage == _pages.length - 1 ? Icons.check : Icons.arrow_forward_rounded,
-                    color: Colors.white,
+                    color: BlinkitApp.accentColor,
                   ),
                 ),
               ],
@@ -97,7 +97,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: const Text(
                 'SKIP',
                 style: TextStyle(
-                  color: Color(0xFFEC5B13),
+                  color: BlinkitApp.primaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
@@ -117,7 +117,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       height: 8,
       width: isSelected ? 24 : 8,
       decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFFEC5B13) : Colors.grey[300],
+        color: isSelected ? BlinkitApp.primaryColor : Colors.grey[300],
         borderRadius: BorderRadius.circular(4),
       ),
     );

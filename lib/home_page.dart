@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'main.dart';
 import 'cart_provider.dart';
+import 'screens/category_products_screen.dart';
 
 class Product {
   final String id;
@@ -51,11 +53,11 @@ class HomePage extends StatelessWidget {
                   crossAxisCount: 4,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 0.7,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return _buildCategoryItem(index);
+                    return _buildCategoryItem(context, index);
                   },
                   childCount: 8,
                 ),
@@ -78,34 +80,57 @@ class HomePage extends StatelessWidget {
 
   Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.all(16.0),
-      color: const Color(0xFFF7CB46),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      color: Colors.white,
+      child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(Icons.location_on, color: Colors.black),
-              const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Delivery in 8 minutes',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: BlinkitApp.accentColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.flash_on, size: 14, color: Colors.black),
+                        SizedBox(width: 4),
+                        Text(
+                          '10 MINS',
+                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    'Home - 123 Main Street',
-                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                ],
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.notifications_none_outlined, color: Colors.black),
+                  const SizedBox(width: 16),
+                  CircleAvatar(
+                    radius: 18,
+                    backgroundColor: BlinkitApp.accentColor,
+                    child: const Icon(Icons.person, color: Colors.black, size: 20),
                   ),
                 ],
               ),
             ],
           ),
-          const CircleAvatar(
-            backgroundColor: Colors.white,
-            child: Icon(Icons.person, color: Colors.black),
-          )
+          const SizedBox(height: 8),
+          Row(
+            children: const [
+              Text(
+                'HSR Layout, Bengaluru',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+              ),
+              Icon(Icons.keyboard_arrow_down, color: Colors.black),
+            ],
+          ),
         ],
       ),
     );
@@ -113,30 +138,41 @@ class HomePage extends StatelessWidget {
 
   Widget _buildSearchBar() {
     return Container(
-      color: const Color(0xFFF7CB46),
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: const [
-            SizedBox(width: 12),
-            Icon(Icons.search, color: Colors.grey),
-            SizedBox(width: 12),
-            Text(
-              'Search "milk"',
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF2F3F5),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: const [
+                  SizedBox(width: 12),
+                  Icon(Icons.search, color: Colors.grey),
+                  SizedBox(width: 12),
+                  Text(
+                    'Search for "atta dal and more"',
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                  ),
+                ],
+              ),
             ),
-            Spacer(),
-            Padding(
-              padding: EdgeInsets.only(right: 12.0),
-              child: Icon(Icons.mic, color: Colors.grey),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              color: BlinkitApp.accentColor,
+              borderRadius: BorderRadius.circular(12),
             ),
-          ],
-        ),
+            child: const Icon(Icons.mic, color: Colors.black),
+          ),
+        ],
       ),
     );
   }
@@ -145,27 +181,65 @@ class HomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
-        height: 150,
+        height: 180,
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.blue[100],
+          color: const Color(0xFF1E56B2),
           borderRadius: BorderRadius.circular(16),
-          image: const DecorationImage(
-            image: NetworkImage('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800'),
-            fit: BoxFit.cover,
-          ),
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Colors.black.withOpacity(0.3),
-          ),
-          child: const Center(
-            child: Text(
-              'Fresh Groceries\nDelivered in 8 Mins',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 20,
+              top: 30,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'UP TO 50% OFF\nON GROCERIES',
+                    style: TextStyle(
+                      color: Color(0xFFD4F400),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFD4F400),
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: const Text(
+                      'SHOP NOW',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            Positioned(
+              bottom: 12,
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(width: 20, height: 6, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(3))),
+                  const SizedBox(width: 4),
+                  Container(width: 6, height: 6, decoration: BoxDecoration(color: Colors.white.withOpacity(0.5), shape: BoxShape.circle)),
+                  const SizedBox(width: 4),
+                  Container(width: 6, height: 6, decoration: BoxDecoration(color: Colors.white.withOpacity(0.5), shape: BoxShape.circle)),
+                  const SizedBox(width: 4),
+                  Container(width: 6, height: 6, decoration: BoxDecoration(color: Colors.white.withOpacity(0.5), shape: BoxShape.circle)),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -173,34 +247,77 @@ class HomePage extends StatelessWidget {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const Text(
+            'See all',
+            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 13),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildCategoryItem(int index) {
-    List<String> categories = ['Vegetables', 'Fruits', 'Milk', 'Bread & Bakery', 'Snacks', 'Drinks', 'Meat', 'Pharmacy'];
-    List<IconData> icons = [Icons.grass, Icons.apple, Icons.local_drink, Icons.bakery_dining, Icons.fastfood, Icons.local_cafe, Icons.restaurant, Icons.medical_services];
-    List<Color> colors = [Colors.green, Colors.red, Colors.blue, Colors.brown, Colors.orange, Colors.brown, Colors.redAccent, Colors.teal];
+  Widget _buildCategoryItem(BuildContext context, int index) {
+    List<String> categories = [
+      'Vegetables &\nFruits',
+      'Dairy &\nBreakfast',
+      'Munchies',
+      'Cold Drinks',
+      'Instant Food',
+      'Cleaning',
+      'Baby Care',
+      'Pharma'
+    ];
+    List<IconData> icons = [
+      Icons.grass,
+      Icons.egg_outlined,
+      Icons.fastfood,
+      Icons.local_drink,
+      Icons.soup_kitchen,
+      Icons.cleaning_services_outlined,
+      Icons.baby_changing_station,
+      Icons.medical_services
+    ];
+    List<Color> colors = [Colors.blue, Colors.green, Colors.orange, Colors.blue, Colors.blue, Colors.blue, Colors.green, Colors.orange];
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryProductsScreen(
+              categoryName: categories[index % categories.length].replaceAll('\n', ' '),
+            ),
+          ),
+        );
+      },
       child: Column(
         children: [
           Expanded(
             child: Container(
+              width: double.infinity,
               decoration: BoxDecoration(
-                color: colors[index % colors.length].withOpacity(0.1),
+                color: const Color(0xFFF2F3F5),
                 borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: (index == 1 || index == 2 || index == 6 || index == 7) 
+                    ? BlinkitApp.accentColor 
+                    : const Color(0xFF1E56B2),
+                  width: 2,
+                ),
               ),
               child: Center(
                 child: Icon(
                   icons[index % icons.length],
                   size: 32,
-                  color: colors[index % colors.length],
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -208,10 +325,9 @@ class HomePage extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             categories[index % categories.length],
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
             maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -261,67 +377,88 @@ class HomePage extends StatelessWidget {
         name: 'Orange Juice',
         subtitle: '1 Litre',
         price: 150.0,
-        imageUrl: 'https://images.unsplash.com/photo-1621506289937-e8e498c0b36b?auto=format&fit=crop&q=80&w=400',
+        imageUrl: 'https://images.unsplash.com/photo-1621506289937-e8e498c0b36b?auto=format&fit=crop&q=80&w=600',
         icon: Icons.local_cafe,
         color: Colors.orangeAccent,
       ),
     ];
 
     return SizedBox(
-      height: 220,
+      height: 240,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: bestsellers.length,
         itemBuilder: (context, index) {
           final product = bestsellers[index];
+          final hasOffer = index % 2 == 0;
           return Container(
-            width: 150,
+            width: 160,
             margin: const EdgeInsets.only(right: 12),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 2,
-                  offset: const Offset(0, 1),
-                ),
-              ],
+              color: const Color(0xFFF2F3F5),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                      image: DecorationImage(
-                        image: NetworkImage(product.imageUrl),
-                        fit: BoxFit.cover,
+                Stack(
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          image: DecorationImage(
+                            image: NetworkImage(product.imageUrl),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    if (hasOffer)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: BlinkitApp.accentColor,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              bottomRight: Radius.circular(16),
+                            ),
+                          ),
+                          child: const Text(
+                            '20% OFF',
+                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
+                        index % 2 == 0 ? 'Kitchen Staples' : 'Soft Drinks',
+                        style: TextStyle(color: Colors.grey[600], fontSize: 10, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
                         product.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         product.subtitle,
-                        style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                        style: TextStyle(color: Colors.grey[500], fontSize: 11),
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -329,7 +466,7 @@ class HomePage extends StatelessWidget {
                         children: [
                           Text(
                             '₹${product.price.toInt()}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           _AddButton(product: product),
                         ],
@@ -360,51 +497,42 @@ class _AddButton extends StatelessWidget {
       return InkWell(
         onTap: () {
           cart.addItem(product.id, product.name, product.price, product.imageUrl, product.subtitle);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('${product.name} added to cart'),
-              duration: const Duration(seconds: 1),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          width: 32,
+          height: 32,
           decoration: BoxDecoration(
-            color: Colors.green[50],
-            border: Border.all(color: Colors.green),
+            color: BlinkitApp.accentColor,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Text(
-            'ADD',
-            style: TextStyle(color: Colors.green, fontSize: 12, fontWeight: FontWeight.bold),
-          ),
+          child: const Icon(Icons.add, color: Colors.black, size: 20),
         ),
       );
     }
 
     return Container(
+      height: 32,
       decoration: BoxDecoration(
-        color: Colors.green,
+        color: BlinkitApp.accentColor,
         borderRadius: BorderRadius.circular(8),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+            constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
             padding: EdgeInsets.zero,
-            icon: const Icon(Icons.remove, color: Colors.white, size: 16),
+            icon: const Icon(Icons.remove, color: Colors.black, size: 14),
             onPressed: () => cart.removeSingleItem(product.id),
           ),
           Text(
             '$quantity',
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 13),
           ),
           IconButton(
-            constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+            constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
             padding: EdgeInsets.zero,
-            icon: const Icon(Icons.add, color: Colors.white, size: 16),
+            icon: const Icon(Icons.add, color: Colors.black, size: 14),
             onPressed: () => cart.addItem(product.id, product.name, product.price, product.imageUrl, product.subtitle),
           ),
         ],

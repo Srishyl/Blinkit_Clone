@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pinput/pinput.dart';
@@ -20,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   String _verificationId = '';
   ConfirmationResult? _webConfirmationResult;
 
-  final Color _primaryColor = const Color(0xFFEC5B13);
+  final Color _primaryColor = BlinkitApp.primaryColor;
 
   Future<void> _verifyPhone() async {
     final phoneNum = _phoneController.text.trim();
@@ -172,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Welcome to FreshDash',
+                'Welcome to Rush',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.grey[900]),
               ),
               const SizedBox(height: 8),
@@ -335,7 +336,7 @@ class _LoginPageState extends State<LoginPage> {
                     text: TextSpan(
                       style: TextStyle(color: Colors.grey[500], fontSize: 13, height: 1.5),
                       children: [
-                        const TextSpan(text: 'By continuing, you agree to FreshDash\'s '),
+                        const TextSpan(text: 'By continuing, you agree to Rush\'s '),
                         TextSpan(text: 'Terms of Service', style: TextStyle(color: _primaryColor, fontWeight: FontWeight.bold)),
                         const TextSpan(text: ' & '),
                         TextSpan(text: 'Privacy Policy', style: TextStyle(color: _primaryColor, fontWeight: FontWeight.bold)),
